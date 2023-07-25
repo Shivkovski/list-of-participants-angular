@@ -1,0 +1,47 @@
+<main>
+  <div class="container-fluid">
+    <form class="needs-validation" #userForm="ngForm">
+      <div id="firstPart">
+        <div class="row">
+          <div class="mb-3 col-6">
+            <input type="text" id="firstName" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': firstName.invalid}" class="form-control" placeholder="First name*" required>
+          </div>
+          <div class="mb-3 col-6">
+            <input type="text" id="lastName" name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': lastName.invalid}" class="form-control" placeholder="Last name*" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="mb-3 col-6">
+            <input type="text" id="birthdate" name="birthdate" [(ngModel)]="model.birthdate" #birthdate="ngModel" [ngClass]="{ 'is-invalid': birthdate.invalid}" class="form-control" placeholder="Datepicker" bsDatepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD MMM YYYY' }" [maxDate]="maxDate" required>
+          </div>
+          <div class="mb-3 col-6">
+            <input type="email" id="email" name="email" [(ngModel)]="model.email" #email="ngModel" [ngClass]="{ 'is-invalid': email.invalid }" email class="form-control" placeholder="name@example.com" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="mb-3 col-6">
+            <select id="country" name="country" [(ngModel)]="model.country" #country="ngModel" [ngClass]="{ 'is-invalid': country.invalid }" class="form-control" (change)="countryChangeSync()"></select>
+          </div>
+          <div class="mb-3 col-6">
+            <input type="tel" id="phone" name="phone" [(ngModel)]="model.phone" #phone="ngModel" [ngClass]="{ 'is-invalid': phone.invalid }" class="form-control" (countrychange)="numberChangeSync()" (change)="numberError()" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="mb-3 col-6">
+            <input type="text" id="report" name="report" [(ngModel)]="model.report" #report="ngModel" [ngClass]="{ 'is-invalid': report.invalid }"  class="form-control" placeholder="Report subject*" required>
+          </div>
+        </div>
+        <button class="btn btn-primary">Next</button>
+      </div>
+      <div id="secondPart">
+
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer>
+  <div id="errorMsg" class="alert alert-danger" hidden>
+
+  </div>
+</footer>
