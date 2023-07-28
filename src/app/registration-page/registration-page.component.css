@@ -1,0 +1,17 @@
+#alertMsg {
+  bottom: 0 !important;
+  position: fixed;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  justify-content: center;
+  display: flex;
+}
+
+#secondPartBackBtn {
+  margin-right: 0.5rem;
+}
+
+#submitForm {
+  margin-left: 0.5rem;
+}

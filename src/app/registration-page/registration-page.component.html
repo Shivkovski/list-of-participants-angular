@@ -4,44 +4,52 @@
       <div id="firstPart">
         <div class="row">
           <div class="mb-3 col-6">
-            <input type="text" id="firstName" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': firstName.invalid}" class="form-control" placeholder="First name*" required>
+            <input type="text" id="firstName" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': firstName.invalid}" class="form-control" (change)="dataUpdate()" placeholder="First name*" required>
           </div>
           <div class="mb-3 col-6">
-            <input type="text" id="lastName" name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': lastName.invalid}" class="form-control" placeholder="Last name*" required>
+            <input type="text" id="lastName" name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': lastName.invalid}" class="form-control" (change)="dataUpdate()" placeholder="Last name*" required>
           </div>
         </div>
         <div class="row">
           <div class="mb-3 col-6">
-            <input type="text" id="birthdate" name="birthdate" [(ngModel)]="model.birthdate" #birthdate="ngModel" [ngClass]="{ 'is-invalid': birthdate.invalid}" class="form-control" placeholder="Datepicker" bsDatepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD MMM YYYY' }" [maxDate]="maxDate" required>
+            <input type="text" id="birthdate" name="birthdate" [(ngModel)]="model.birthdate" #birthdate="ngModel" [ngClass]="{ 'is-invalid': birthdate.invalid}" class="form-control" (ngModelChange)="dataUpdate()" placeholder="Datepicker*" bsDatepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD MM YYYY' }" [minDate]="minDate" [maxDate]="maxDate" required>
           </div>
           <div class="mb-3 col-6">
-            <input type="email" id="email" name="email" [(ngModel)]="model.email" #email="ngModel" [ngClass]="{ 'is-invalid': email.invalid }" email class="form-control" placeholder="name@example.com" required>
+            <input type="email" id="email" name="email" [(ngModel)]="model.email" #email="ngModel" [ngClass]="{ 'is-invalid': email.invalid }" email class="form-control" (change)="dataUpdate()" placeholder="name@example.com" required>
           </div>
         </div>
         <div class="row">
           <div class="mb-3 col-6">
-            <select id="country" name="country" [(ngModel)]="model.country" #country="ngModel" [ngClass]="{ 'is-invalid': country.invalid }" class="form-control" (change)="countryChangeSync()"></select>
+            <select id="country" name="country" [(ngModel)]="model.country" #country="ngModel" [ngClass]="{ 'is-invalid': country.invalid }" class="form-control" (change)="dataUpdate()" (change)="countryChangeSync()"></select>
           </div>
           <div class="mb-3 col-6">
-            <input type="tel" id="phone" name="phone" [(ngModel)]="model.phone" #phone="ngModel" [ngClass]="{ 'is-invalid': phone.invalid }" class="form-control" (countrychange)="numberChangeSync()" (change)="numberError()" required>
+            <input type="tel" id="phone" name="phone" [(ngModel)]="model.phone" #phone="ngModel" [ngClass]="{ 'is-invalid': phone.invalid }" class="form-control" (change)="dataUpdate()" (countrychange)="numberChangeSync()" (change)="numberError()" required>
           </div>
         </div>
         <div class="row">
           <div class="mb-3 col-6">
-            <input type="text" id="report" name="report" [(ngModel)]="model.report" #report="ngModel" [ngClass]="{ 'is-invalid': report.invalid }"  class="form-control" placeholder="Report subject*" required>
+            <input type="text" id="report" name="report" [(ngModel)]="model.report" #report="ngModel" [ngClass]="{ 'is-invalid': report.invalid }"  class="form-control" (change)="dataUpdate()" placeholder="Report subject*" required>
           </div>
         </div>
-        <button class="btn btn-primary">Next</button>
+        <button id="secondPartBtn" class="btn btn-primary" (click)="switchParts()">Next</button>
       </div>
-      <div id="secondPart">
-
+      <div id="secondPart" hidden>
+        <div class="row">
+          <div class="mb-3 col-6">
+            <input type="text" id="company" name="company" [(ngModel)]="model.company" class="form-control" (change)="dataUpdate()" placeholder="Company">
+          </div>
+          <div class="mb-3 col-6">
+            <input type="text" id="position" name="position" [(ngModel)]="model.position" class="form-control" (change)="dataUpdate()" placeholder="Position">
+          </div>
+        </div>
+        <button id="secondPartBackBtn" class="btn btn-primary" (click)="switchParts()">Back</button><button id="submitForm" class="btn btn-primary" (click)="localStorageUpdate(model)" [routerLink]="'/list_of_participants'">Submit</button>
       </div>
     </form>
   </div>
 </main>
 
 <footer>
-  <div id="errorMsg" class="alert alert-danger" hidden>
-
+  <div>
+    <div id="alertMsg" class="alert" hidden></div>
   </div>
 </footer>
