@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import * as intlTelInput from 'intl-tel-input';
 
+import { parse } from 'date-fns';
+
 export class User {
   public firstName!: any;
   public lastName!: any;
@@ -69,12 +71,11 @@ export class RegistrationPageComponent implements OnInit {
     if(this.myStorage.getItem('member')){
       let countryInput = (document.getElementById('country')) as HTMLInputElement;
 
-      let member = JSON.parse(this.myStorage.getItem('member')!)
-      console.log(member)
+      let member = JSON.parse(this.myStorage.getItem('member')!);
 
       this.model.firstName = member[0]['firstName'];
       this.model.lastName = member[0]['lastName'];
-      this.model.birthdate = member[0]['birthdate'];
+      this.model.birthdate = parse(member[0]['birthdate'], 'dd MM yyyy', new Date());
       this.model.email = member[0]['email'];
       countryInput.value = member[0]['country'];
       this.model.phone = member[0]['phone'];
@@ -160,11 +161,12 @@ export class RegistrationPageComponent implements OnInit {
     };
   };
 
-  public localStorageUpdate(obj: object){
+  public localStorageUpdate(obj: any){
     let members = [];
     if (localStorage.getItem('members') !== null){
       members = JSON.parse(this.myStorage.getItem('members')!);
     };
+    obj['birthdate'] = this.birthdateTransfer(obj['birthdate']);
     members.push(obj);
     this.myStorage.setItem('members', JSON.stringify(members));
     this.myStorage.setItem('member', '')
@@ -176,7 +178,7 @@ export class RegistrationPageComponent implements OnInit {
     if(firstPart.hidden == false){
       this.newMember.firstName = this.model.firstName;
       this.newMember.lastName = this.model.lastName;
-      this.newMember.birthdate = this.birthdateTransfer();
+      this.newMember.birthdate = this.birthdateTransfer(this.model.birthdate);
       this.newMember.email = this.model.email;
       this.newMember.country = this.model.country;
       this.newMember.phone = this.model.phone;
@@ -191,11 +193,25 @@ export class RegistrationPageComponent implements OnInit {
     this.myStorage.setItem('member', JSON.stringify(memberSave));
   };
 
-  public birthdateTransfer(){
-    let date = new Date(this.model.birthdate)
-    let dateStrMonth = date.getMonth() + 1;
-    let dateStrDay = date.getDate();
-    let dateStrYear = date.getFullYear();
+  public birthdateTransfer(obj: any){
+    let date = new Date(obj)
+    let dateIntDay = date.getDate();
+    let dateIntMonth = date.getMonth() + 1;
+    let dateIntYear = date.getFullYear();
+    let dateStrDay = new String;
+    let dateStrMonth = new String;
+    let dateStrYear = new String(dateIntYear);
+
+    if(dateIntDay<10){
+      dateStrDay = "0" + String(dateIntDay)
+    } else {
+      dateStrDay = String(dateIntDay)
+    };
+    if(dateIntMonth<10){
+      dateStrMonth = "0" + String(dateIntMonth)
+    } else {
+      dateStrMonth = String(dateIntMonth)
+    };
 
     let dateStr = dateStrDay + " " + dateStrMonth + " " + dateStrYear;
     return dateStr;

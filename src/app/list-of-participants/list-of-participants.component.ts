@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { parse } from 'date-fns';
+
 @Component({
   selector: 'app-list-of-participants',
   templateUrl: './list-of-participants.component.html',
@@ -65,10 +67,24 @@ email: ${email}`
   };
 
   public birthdateTransfer(obj: any) {
-    let date = new Date(obj)
-    let dateStrMonth = date.getMonth() + 1;
-    let dateStrDay = date.getDate();
-    let dateStrYear = date.getFullYear();
+    let date = parse(obj, 'dd MM yyyy', new Date());
+    let dateIntDay = date.getDate();
+    let dateIntMonth = date.getMonth() + 1;
+    let dateIntYear = date.getFullYear();
+    let dateStrDay = new String;
+    let dateStrMonth = new String;
+    let dateStrYear = new String(dateIntYear);
+
+    if(dateIntDay<10){
+      dateStrDay = "0" + String(dateIntDay)
+    } else {
+      dateStrDay = String(dateIntDay)
+    };
+    if(dateIntMonth<10){
+      dateStrMonth = "0" + String(dateIntMonth)
+    } else {
+      dateStrMonth = String(dateIntMonth)
+    };
 
     let dateStr = dateStrDay + " " + dateStrMonth + " " + dateStrYear;
     return dateStr;
